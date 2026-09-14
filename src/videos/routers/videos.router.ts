@@ -27,10 +27,11 @@ videosRouter
         res.status(HttpStatus.Ok).send(video);
 
     })
-    .post('', (req: Request, res: Response)=> {
+    .post('', (req: Request, res: Response) => {
+        const minAge = null;
         const errors = validateVideoInputDto(req.body);
 
-        if (errors.length > 0){
+        if (errors.length > 0) {
             res.status(HttpStatus.BadRequest).send(createErrorMessages(errors));
             return;
         }
@@ -39,8 +40,8 @@ videosRouter
             id: db.videos.length + 1,
             title: req.body.title,
             author: req.body.author,
-            canBeDownloaded: false,
-            minAgeRestriction: 14,
+            canBeDownloaded: req.body.canBeDownloaded ?? false,
+            minAgeRestriction: req.body.minAgeRestriction ?? null,
             createdAt: new Date(),
             publicationDate: new Date(),
             availableResolutions: req.body.availableResolutions
@@ -48,4 +49,8 @@ videosRouter
 
         db.videos.push(newVideo);
         res.status(HttpStatus.Created).send(newVideo);
+    })
+    .delete('', (req: Request, res: Response) => {
+        db.videos.splice(0, db.videos.length);
+        res.status(HttpStatus.NoContent).send([{message: 'All data deleted'}])
     })

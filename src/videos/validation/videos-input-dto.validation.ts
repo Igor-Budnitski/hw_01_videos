@@ -11,7 +11,9 @@ const isInvalidString = (value: unknown, min: number, max: number): boolean =>
     value.trim().length < min ||
     value.trim().length > max;
 
-const isValid = (age: number | null): boolean => age === null || (age >= 1 && age <= 18);
+const isValidMinAge = (age: number | null): boolean => {
+    return age === null || (typeof age === 'number' && age >= 1 && age <= 18);
+};
 
 // Ручная валидация тела запроса (на этом этапе — без сторонних библиотек).
 // Возвращает список ошибок; пустой список означает, что данные корректны.
@@ -27,7 +29,7 @@ export const validateVideoInputDto = (data: VideoInputDto,
         errors.push({field: 'author', message: 'Author has incorrect length or type'})
     }
 
-    if (isValid(data.minAgeRestriction)){
+    if (isValidMinAge(data.minAgeRestriction)){
         errors.push({field: 'minAgeRestriction', message: 'Incorrect age'})
     }
 
@@ -35,9 +37,8 @@ export const validateVideoInputDto = (data: VideoInputDto,
         errors.push({field: "availableResolutions", message: 'Empty array'})
     }
 
-/*    if (data.canBeDownloaded === null){
+    if (data.canBeDownloaded === null){
         errors.push({field: 'canBeDownloaded', message: 'Null value in canBeDownloaded'})
-    }*/
-
+    }
     return errors;
 }

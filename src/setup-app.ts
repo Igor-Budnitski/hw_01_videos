@@ -8,7 +8,6 @@ export const setupApp = (app: Express) => {
   app.get("/", (req, res) => {
     res.status(200).send("Hello world!");
   });
-
   app.use('/videos', videosRouter);
   return app;
 };

@@ -2,7 +2,7 @@ import {VideoInputDto} from "../dto/video.input.dto";
 import {Resolution} from "../types/videos";
 import {ValidationError} from "../../core/types/validation-error";
 
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+//const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 // Строка считается некорректной, если это не строка или её длина (после trim)
 // выходит за границы [min, max]. Вынесено отдельно, чтобы не дублировать проверку.
@@ -31,9 +31,13 @@ export const validateVideoInputDto = (data: VideoInputDto,
         errors.push({field: 'minAgeRestriction', message: 'Incorrect age'})
     }
 
-    if (data.canBeDownloaded === null){
-        errors.push({field: 'canBeDownloaded', message: 'Null value in canBeDownloaded'})
+    if (data.availableResolutions.length < 1){
+        errors.push({field: "availableResolutions", message: 'Empty array'})
     }
+
+/*    if (data.canBeDownloaded === null){
+        errors.push({field: 'canBeDownloaded', message: 'Null value in canBeDownloaded'})
+    }*/
 
     return errors;
 }

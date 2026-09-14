@@ -3,14 +3,14 @@
   "name": "hw_01_videos",
   "builds": [
     {
-      "src": "src/index.ts",
+      "src": "src/setup-app.ts",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "src/index.ts"
+      "dest": "src/setup-app.ts"
     }
   ]
 }
